@@ -207,8 +207,13 @@ export default {
         console.log('this is 12334');
     },
     methods :{
-		setDialogInfo(){
-			
+		setDialogInfo(type){
+            if(type == 'logout'){
+                _g.confirmMsg('warning' , '提示' , '确定要退出登录吗？' , () => {
+                    this.$router.push({ path : '/login' })
+                })
+                
+            }
 		},
 		changeLocale(){
 
