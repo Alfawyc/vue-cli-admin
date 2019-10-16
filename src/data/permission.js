@@ -11,15 +11,23 @@ export const permission = [
         id : 2,
         title : '用户管理',
         icon : 'iconuser',
-        path : 'user-mamage',
+        path : '/user-manage',
         hidden : false,
-        noDropdown : true
+        noDropdown : false,
+        children : [
+            {
+                id : '21',
+                title : '用户列表',
+                path : 'user-list',
+                routerType : '',
+            }
+        ]
     },
     {
         id : 3,
         title : '分享功能',
         icon : 'iconshare',
-        path : 'share-manage',
+        path : '/share-manage',
         hidden : false,
         noDropdown : true,
     },
@@ -27,7 +35,7 @@ export const permission = [
         id : 4,
         title : '信息管理',
         icon : 'iconinfo',
-        path : 'message-list',
+        path : '/message-list',
         hidden : false,
         noDropdown : true
     },
@@ -35,7 +43,7 @@ export const permission = [
         id : 5,
         title : '资金管理',
         icon : 'iconpay3',
-        path : 'finance-manege',
+        path : '/finance-manege',
         hidden : false,
         noDropdown : true
     },
@@ -43,7 +51,7 @@ export const permission = [
         id : 6,
         title : '资金数据',
         icon : 'iconecharts',
-        path : 'finance-data',
+        path : '/finance-data',
         hidden : false,
         noDropdown : true
     },
@@ -51,7 +59,7 @@ export const permission = [
         id : 7,
         title : '系统设置',
         icon : 'iconpermission',
-        path : 'system-list',
+        path : '/system-list',
         hidden : false,
         noDropdown : true
     },
@@ -59,7 +67,7 @@ export const permission = [
         id : 8,
         title : '错误页面',
         icon : 'iconError',
-        path : 'error-page',
+        path : '/error-page',
         hidden : false,
         noDropdown : false,
         children : [

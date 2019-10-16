@@ -2,6 +2,10 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 
+//引入二级路由
+import { errorRoute } from '@/routes/error.js';
+import { userRoute } from '@/routes/user.js';
+
 Vue.use(Router);
 
 export default new Router({
@@ -44,5 +48,21 @@ export default new Router({
 			},
 			component: () => import(/*webpackChunkName: "base" */ "views/Login.vue")
 		},
+		{
+			path: '/user-manage',
+			component: Home,
+			meta: {
+				title: '用户管理'
+			},
+			children : userRoute　
+		},
+		{
+			path : '/error-page',
+			component: Home,
+			meta : {
+				title : '错误页面'
+			},
+			children: errorRoute 
+		}
 	]
 });

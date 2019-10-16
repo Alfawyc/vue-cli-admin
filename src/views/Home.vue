@@ -160,7 +160,7 @@ export default {
 	name : 'Home',
     data(){
         return {
-			github : 'https://github.com/wdlhao/vue2-element-touzi-admin',
+			github : 'https://github.com/Alfawyc/vue-cli-admin/tree/develop',
 			menuObj:{
 				bgColor:'#fff',
 				textColor:'#666',
@@ -219,9 +219,9 @@ export default {
 			this.changeBarDirection = !this.changeBarDirection;
 		},
 		getIindex(citem,item,cindex){
-			console.log(cindex);
-      		return '/test/route' + cindex;
-    }
+            console.log(item.path + '/' + citem.path);
+      		return item.path + '/' + citem.path;
+        }
     }
 };
 </script>

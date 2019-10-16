@@ -28,6 +28,6 @@ module.exports = {
     .set('components', resolve('src/components'))
     .set('style' , resolve('src/style'))
     .set('views', resolve('src/views'))
-  },
+  }
   
 }

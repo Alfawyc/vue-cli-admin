@@ -9,11 +9,11 @@ export default {
     name : 'Dashboard',
     data(){
         return {
-            github:'https://github.com/wdlhao/vue2-element-touzi-admin'
+            github:'https://github.com/Alfawyc/vue-cli-admin/tree/develop'
         }
     },
     created(){
-        console.log('this is 123');
+        
     },
     methods :{
 
