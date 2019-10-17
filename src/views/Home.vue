@@ -122,7 +122,7 @@
 			<div class="menu_content" ref="menu_content">
 				<!-- bread -->
 				<div class="bread_container" id="bread_container">
-					<span @click="handleLefeMenu" class="bars"> 
+					<span @click="handleLeftMenu" class="bars"> 
 						<icon-svg icon-class="iconmenu-fold" :class="{isactive:changeBarDirection}" />
 					</span>
 					<el-breadcrumb class="breadcrumb" separator="/">
@@ -156,6 +156,7 @@ import qqImg from "@/assets/img/qq.png";
 import logoImg from "@/assets/img/logo.png";
 import chinaImg from "@/assets/img/china.svg";
 import americaImg from "@/assets/img/america.svg";
+import store from '@/store.js';
 export default {
 	name : 'Home',
     data(){
@@ -189,7 +190,12 @@ export default {
 	},
 	computed:{
 		matchedArr(){
-
+            let title = [];
+            let metaData = this.$route.matched;
+            metaData.map((v , k) => {
+                title.push(v.meta.title);
+            });
+            return title;
 		},
 		...mapGetters([
 			//'permission_routers',
@@ -203,8 +209,7 @@ export default {
             }
 	},
     created(){
-		console.log(this.permission_routers);
-        console.log('this is 12334');
+        
     },
     methods :{
 		setDialogInfo(type){
@@ -218,13 +223,14 @@ export default {
 		changeLocale(){
 
 		},
-		handleLefeMenu(){
-			this.$store.dispatch('setLeftCollapse');  // 折叠菜单
-			this.$store.dispatch('handleLeftMenu');  // 改变菜单宽度 180->35/35-180
+		handleLeftMenu(){
+            //折叠菜单
+            store.commit('setLeftCollapse');
+            store.commit('handleLeftMenu');
 			this.changeBarDirection = !this.changeBarDirection;
 		},
 		getIindex(citem,item,cindex){
-            console.log(item.path + '/' + citem.path);
+            //console.log(item.path + '/' + citem.path);
       		return item.path + '/' + citem.path;
         }
     }
@@ -391,4 +397,29 @@ export default {
 
         }
     }
+    .bread_container{
+		background-color: #eaebec;
+		width: 100%;
+		.bars{
+			float: left;
+            margin: 4px 10px;
+			cursor: pointer;
+			.isactive{
+				-webkit-transform: rotate(90deg);
+				transform: rotate(90deg);
+				transition: .38s;
+				-webkit-transform-origin: 50% 50%;
+				transform-origin: 50% 50%;
+			}
+		}
+		.breadcrumb{
+			height: 30px;
+			line-height: 30px;
+			.breadbutton{
+				float:left;
+				margin:4px 5px 0 0;
+				
+			}
+		}
+	}
 </style>

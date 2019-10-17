@@ -7,6 +7,8 @@ import _api from './api';
 import _g from './global';
 import './plugins/element.js';
 import ElementUI from 'element-ui';
+import '@/element-variables.scss';
+Vue.use(ElementUI, { size: 'mini'});
 import VueRouter from 'vue-router';
 // import IconSvg from 'components/IconSvg/IconSvg'
 import './components/IconSvg/index' // iconSvg
