@@ -16,10 +16,16 @@ export const permission = [
         noDropdown : false,
         children : [
             {
-                id : '21',
+                id : '201',
                 title : '用户列表',
                 path : 'user-list',
                 routerType : '',
+            },
+            {
+                id: '202',
+                title: '用户分析',
+                path: 'user-analysis',
+                routerType: ''
             }
         ]
     },
@@ -45,7 +51,15 @@ export const permission = [
         icon : 'iconpay3',
         path : '/finance-manege',
         hidden : false,
-        noDropdown : true
+        noDropdown : false,
+        children: [
+            {
+                id : '501',
+                title : '收入支出',
+                path : 'income-pay',
+                routerType : '',
+            }
+        ]
     },
     {
         id : 6,

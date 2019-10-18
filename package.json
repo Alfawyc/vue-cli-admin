@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "echarts": "^4.4.0",
+    "echarts-china-cities-js": "^0.1.1",
     "element-ui": "^2.12.0",
     "less-loader": "^5.0.0",
     "svg-sprite-loader": "^4.1.6",

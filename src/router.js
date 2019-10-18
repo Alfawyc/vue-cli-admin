@@ -5,6 +5,7 @@ import Home from "./views/Home.vue";
 //引入二级路由
 import { errorRoute } from '@/routes/error.js';
 import { userRoute } from '@/routes/user.js';
+import { financeRoute } from '@/routes/finance.js';
 
 Vue.use(Router);
 
@@ -55,6 +56,14 @@ export default new Router({
 				title: '用户管理'
 			},
 			children : userRoute　
+		},
+		{
+			path: '/finance-manege',
+			component: Home,
+			meta: {
+				title: '资金管理'
+			},
+			children: financeRoute
 		},
 		{
 			path : '/error-page',
