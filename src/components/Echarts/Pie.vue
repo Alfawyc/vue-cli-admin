@@ -6,16 +6,18 @@
 
 <script>
 // 引入 ECharts 主模块
-var echarts = require('echarts/lib/echarts');
-require('echarts/lib/chart/pie');
+// var echarts = require('echarts/lib/echarts');
+import echarts from 'echarts';//完整
+/* require('echarts/lib/chart/pie');
 // 引入提示框和标题组件
 require('echarts/lib/component/tooltip');
 require('echarts/lib/component/title');
+require('echarts/lib/component/legend'); */
 export default {
     data() {
         return {
-            width: 300,
-            height: 300
+            width: 450,
+            height: 450
         };
     },
     props: {
@@ -48,16 +50,26 @@ export default {
             element.style.height = this.width + 'px';
             var myChart = echarts.init(document.getElementById('pie-chart'));
             var option = {
-                color: this.color,
+                title : {
+                    text: '资金来源分析',
+                    subtext: '纯属虚构',
+                    x:'center'
+                },
                 tooltip: {
                     trigger: 'item',
                     formatter: '{b} : {c} ({d}%)'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
                 },
                 series: [
                     {
                         type: 'pie',
                         data: this.option.data,
-                        center : ['80%' , '60%'],
+                        radius : '55%',
+                        center : ['50%' , '60%'],
                     }
                 ]
             };

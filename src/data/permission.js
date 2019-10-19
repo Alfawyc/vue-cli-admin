@@ -58,6 +58,12 @@ export const permission = [
                 title : '收入支出',
                 path : 'income-pay',
                 routerType : '',
+            },
+            {
+                id: 502,
+                title: '资金统计',
+                path: 'finance-analysis',
+                routerType: '',
             }
         ]
     },
