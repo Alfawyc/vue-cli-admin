@@ -1,0 +1,84 @@
+/*********elementUI样式重置********/
+
+.el-input__inner {
+    padding: 0 10px;
+    border: 1px solid rgba(217, 217, 217, 1);
+}
+
+/* .el-select {
+    height: 28px !important;
+} */
+.el-select .el-input--small .el-input__inner {
+    height: 28px !important;
+    line-height: 28px !important;
+}
+.el-tabs--border-card > .el-tabs__header {
+    background-color: rgba(187, 187, 187, 0.3);
+}
+.bg-form {
+    position: relative;
+    background-color: #ffffff;
+    padding: 0px 20px;
+}
+.bg-form .el-form-item {
+    margin-bottom: 12px;
+}
+.g-sidebar > .el-menu {
+    border-right: none;
+}
+.g-sidebar .level-1,
+.g-sidebar .level-1 > .el-submenu__title {
+    height: 50px;
+    line-height: 50px;
+}
+.g-sidebar .level-2,
+.g-sidebar .level-2 > .el-submenu__title {
+    height: 40px;
+    line-height: 40px;
+}
+.g-sidebar .level-2.el-submenu {
+    height: auto;
+}
+.g-sidebar .level-3 {
+    height: 30px;
+    line-height: 30px;
+}
+/* .g-sidebar .el-menu-item.level-3 {
+    min-width: none;
+} */
+.g-sidebar .is-active {
+    color: #ffffff !important;
+    background: #009688 !important;
+}
+.imageFileInput {
+    width: 125px;
+    height: 120px;
+    position: relative;
+    background-color: rgba(187, 187, 187, 0.3);
+}
+.imageFileInput .fileInput {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.imageFileInput div {
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #4d4d4d;
+    color: rgba(255, 255, 255, 0.94);
+}
+/* ****************** */
+
+.marb10{
+    margin-bottom: 10px;
+}

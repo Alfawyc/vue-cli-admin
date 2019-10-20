@@ -2,7 +2,8 @@
     <div class="fillcontain">
         <div class="contain">
             <div class="table_container">
-                <el-table :data="userList"  border style="width: 100%">
+                <el-button type="primary" class="marb10" @click="jumpTo('/user-manage/add-user')">新增用户</el-button>
+                <el-table :data="userList" border style="100%">
                     <el-table-column prop="date" label="日期"></el-table-column>
                     <el-table-column prop="email" label="邮箱地址"></el-table-column>
                     <el-table-column prop="address" label="注册地址"></el-table-column>
@@ -10,7 +11,7 @@
                     <el-table-column prop="create_time" label="注册时间"></el-table-column>
                     <el-table-column prop="login_time" label="登录时间"></el-table-column>
                 </el-table>
-                <paginate :toPage="toPaga"></paginate>
+                <paginate :toPage="toPaga" :from-page="fromPage"></paginate>
             </div>
         </div>
     </div>
@@ -46,7 +47,12 @@ export default {
 
     },
     methods: {
-
+        fromPage(){
+            console.log('form-page');
+        },
+        jumpTo(path , query = {}){
+            this.$router.push({ path: path , query: query });
+        }
     }
 }
 </script>
@@ -63,5 +69,8 @@ export default {
 .pagination{
     padding: 10px 20px;
     text-align: right;
+}
+.marb10{
+    margin-bottom: 10px;
 }
 </style>
