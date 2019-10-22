@@ -13,6 +13,7 @@
     "echarts-china-cities-js": "^0.1.1",
     "element-ui": "^2.12.0",
     "less-loader": "^5.0.0",
+    "mockjs": "^1.0.1-beta3",
     "svg-sprite-loader": "^4.1.6",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",

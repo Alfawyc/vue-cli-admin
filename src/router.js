@@ -20,7 +20,10 @@ export default new Router({
 			children: [{
 				path : '/',
 				name : 'Dashboard',
-				component: () => import(/*webpackChunkName: "base" */ "views/Dashboard")
+				component: () => import(/*webpackChunkName: "base" */ "views/Dashboard"),
+				meta : {
+					title : 'Dashboard'
+				}
 			}]
 		},
 		{

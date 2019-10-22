@@ -10,7 +10,8 @@ import '@/element-variables.scss';
 Vue.use(ElementUI, { size: 'small' })
 import VueRouter from 'vue-router';
 // import IconSvg from 'components/IconSvg/IconSvg'
-import './components/IconSvg/index' // iconSvg
+import './components/IconSvg/index'; // iconSvg
+import Mock from './mock';
 
 Vue.config.productionTip = false
 
@@ -21,6 +22,7 @@ window.axios = axios;
 window._api = _api;
 window._g = _g;
 window.routes = router;
+window.Mock = Mock; //全局组成mock
 
 const routes = new VueRouter({
   router

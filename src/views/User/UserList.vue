@@ -3,8 +3,9 @@
         <div class="contain">
             <div class="table_container">
                 <el-button type="primary" class="marb10" @click="jumpTo('/user-manage/add-user')">新增用户</el-button>
-                <el-table :data="userList" border style="100%">
-                    <el-table-column prop="date" label="日期"></el-table-column>
+                <el-table :data="userList" border style="100%" v-loading="loading">
+                    <el-table-column prop="nickname" label="用户名"></el-table-column>
+                    <el-table-column prop="name" label="真实姓名"></el-table-column>
                     <el-table-column prop="email" label="邮箱地址"></el-table-column>
                     <el-table-column prop="address" label="注册地址"></el-table-column>
                     <el-table-column prop="ip" label="IP地址"></el-table-column>
@@ -26,25 +27,17 @@ export default {
     },
     data(){
         return {
-            userList: [
-                {
-                    date: '2019-10-17',
-                    email: 'alfa.wang@foxmail.com',
-                    address: '广州',
-                    ip: '192.168.0.4',
-                    create_time: '2019-10-17 22:00:00',
-                    login_time: '2019-10-17 22:05:00'
-                }
-            ],
+            userList: [ ],
             toPaga: {
                 currentPage: 1,
                 totalCount: 0,
                 perpage: 1
-            }
+            },
+            loading : true,
         }
     },
     created(){
-
+        this.getUserList();
     },
     methods: {
         fromPage(){
@@ -52,6 +45,32 @@ export default {
         },
         jumpTo(path , query = {}){
             this.$router.push({ path: path , query: query });
+        },
+        getUserList(){
+            setTimeout(() => {
+                this.loading = false;
+            }, 2000);
+            let fakeData = Mock.mock({
+                'array|10': [
+                    {
+                        'nickname' : '@first',
+                        'name' : '@cname',
+                        'email' : '@email',
+                        "age|18-28": 0,
+                        'date' : '@date("yyyy-MM-dd")',
+                        'address' : '@city(true)',
+                        'ip' : '@ip',
+                        'create_time' : '@datetime("yyyy-MM-dd HH:mm:ss")',
+                        'login_time' : '@datetime("yyyy-MM-dd HH:mm:ss")',
+                    }
+                ]
+            });
+            let data = fakeData.array;
+            this.toPaga.totalCount = data.length * 15;
+            this.toPaga.perpage = 10
+            this.userList = fakeData.array;
+    
+            
         }
     }
 }
