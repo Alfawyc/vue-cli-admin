@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import error from "./views/Error.vue";
 
 //引入二级路由
 import { errorRoute } from '@/routes/error.js';
@@ -25,24 +26,6 @@ export default new Router({
 					title : 'Dashboard'
 				}
 			}]
-		},
-		{
-			path: "/about",
-			name: "about",
-			// route level code-splitting
-			// this generates a separate chunk (about.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
-			component: () =>
-				import(/* webpackChunkName: "about" */ "./views/About.vue")
-		},
-		{
-			path: "/hello",
-			name: "HelloWorld",
-			meta : {
-				title : 'hello'
-			},
-			component: () =>
-				import(/* webpackChunkName: "about" */ "./components/HelloWorld.vue")
 		},
 		{
 			path: "/login",
@@ -75,6 +58,11 @@ export default new Router({
 				title : '错误页面'
 			},
 			children: errorRoute 
+		},
+		{
+			path: '*',
+			component: error,
+			name: 'error'
 		}
 	]
 });

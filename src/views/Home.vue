@@ -105,7 +105,7 @@
 								<el-submenu index="2"  popper-class="infoItem">
 									<template slot="title">
 										<div class='welcome'>
-											<span class="name">hi,</span>
+											<span class="name">Hello</span>
 											<span class='name avatarname'> 管理员</span>
 										</div>
 										<img :src="avatar" class='avatar' alt="">
@@ -193,7 +193,9 @@ export default {
             let title = [];
             let metaData = this.$route.matched;
             metaData.map((v , k) => {
-                title.push(v.meta.title);
+                if(v.meta.title){
+                    title.push(v.meta.title);
+                }
             });
             return title;
 		},
