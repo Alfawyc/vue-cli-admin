@@ -16,7 +16,7 @@
 						<el-input @keyup.enter.native ="submitForm('loginForm')" class="area" type="password" placeholder="密码" v-model="loginForm.password"></el-input>
 					</el-form-item>
 					<el-form-item>
-				    	<el-button type="primary"  @click="submitForm('loginForm')" class="submit_btn">SIGN IN</el-button>
+				    	<el-button type="primary"  @click="submitForm('loginForm')" class="submit_btn">登陆</el-button>
 				  	</el-form-item>
 					<div class="tiparea">
 						<p class="wxtip">温馨提示：</p>
@@ -52,7 +52,7 @@ export default {
             logo : logoImg,
             loginForm : {
                 username : 'admin',
-                password : 123456
+                password : ''
             },
             rules : {
                 username: [
@@ -70,6 +70,18 @@ export default {
     },
     methods : {
         submitForm(){
+			_api.post('/login' , this.loginForm).then(res => {
+				if(res.code != 0){
+					_g.toastMsg('error' , res.message , 1500);
+					return false;
+				}
+				_g.toastMsg('success' , '登陆成功' , 1500 , () => {
+					//保存用户信息
+					Lockr.set('realname' , res.data.realname);
+					this.$router.push({ path :  '/'});
+				});
+			});
+			return false;
             console.log('submit form');
             //TODO:登陆逻辑
             this.$router.push({ path :  '/'});

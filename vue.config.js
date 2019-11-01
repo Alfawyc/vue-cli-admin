@@ -19,7 +19,8 @@ module.exports = {
 
 	devServer: {
 		open: true,
-		//host: '0.0.0.0',
+		host: '0.0.0.0',
+		proxy: 'http://hrms.com', //允许跨域的域名
 	},
 	chainWebpack: config => {
 		config.resolve.alias

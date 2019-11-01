@@ -217,6 +217,7 @@ export default {
 		setDialogInfo(type){
             if(type == 'logout'){
                 _g.confirmMsg('warning' , '提示' , '确定要退出登录吗？' , () => {
+                    Lockr.flush();
                     this.$router.push({ path : '/login' })
                 })
                 

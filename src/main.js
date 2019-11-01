@@ -12,6 +12,7 @@ import VueRouter from 'vue-router';
 // import IconSvg from 'components/IconSvg/IconSvg'
 import './components/IconSvg/index'; // iconSvg
 import Mock from './mock';
+import Lockr from 'lockr';
 
 Vue.config.productionTip = false
 
@@ -22,7 +23,8 @@ window.axios = axios;
 window._api = _api;
 window._g = _g;
 window.routes = router;
-window.Mock = Mock; //全局组成mock
+window.Mock = Mock; //全局注册mock
+window.Lockr = Lockr;
 
 const routes = new VueRouter({
   router
@@ -32,12 +34,11 @@ const routes = new VueRouter({
 const bus = new Vue();
 window.bus = bus;
 
-window.HOST = window.location.protocol + '//' + window.location.host;
+// window.HOST = window.location.protocol + '//' + window.location.host;
 
 //axios全局配置
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.headers['Content-Type'] = 'application/json';
-window.axios.defaults.baseURL = window.HOST;
 
 router.beforeEach((to, from, next) => {
   next();

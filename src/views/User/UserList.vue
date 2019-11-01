@@ -38,6 +38,7 @@ export default {
     },
     created(){
         this.getUserList();
+        this.getLogin();
     },
     methods: {
         fromPage(){
@@ -69,8 +70,11 @@ export default {
             this.toPaga.totalCount = data.length * 15;
             this.toPaga.perpage = 10
             this.userList = fakeData.array;
-    
-            
+        },
+        getLogin(){
+            _api.post('/login' , { username: 'admin' , password: 'admin123456' }).then(res => {
+                console.log(res);
+            });
         }
     }
 }

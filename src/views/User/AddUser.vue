@@ -2,10 +2,10 @@
     <div class="fillcontain">
         <div class="info_container">
             <el-row class="info_row row" :gutter="10">
-                <el-col :span="8">
-                    <el-form ref="form" :rules="rules" :model="postData" label-width="80px" class="demo-ruleForm"> 
+                <el-form ref="form" :rules="rules" :model="postData" label-width="80px" class="demo-ruleForm"> 
+                    <el-col :span="8">
                         <el-form-item label="用户名" prop="username">
-                            <el-input v-model="postData.username" placeholder="请输入用户名"></el-input>
+                        <el-input v-model="postData.username" placeholder="请输入用户名"></el-input>
                         </el-form-item>                    
                         <el-form-item label="真实姓名" prop="realname">
                             <el-input v-model="postData.realname" placeholder="请输入真实姓名"></el-input>
@@ -22,13 +22,18 @@
                                 <el-option label="女" value="F"></el-option>
                             </el-select>
                         </el-form-item>
+                    </el-col>
+                    <el-col>
+                        <el-form-item label="简介" prop="desc">
+                        <wang-editor @change-content="changeEdiorContent" :detailContent="contentDetail" :onload="onload" :uploadUrl="uploadUrl"></wang-editor>
+                        </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="comfirmAdd">确定</el-button>
                             <el-button>取消</el-button>
                             <el-button type="danger" @click="resetField">重置</el-button>  
                         </el-form-item>
-                    </el-form>
-                </el-col>
+                    </el-col>
+                </el-form>
             </el-row>
             
         </div>
@@ -38,8 +43,12 @@
 
 <script>
 import { checkRegex} from '@/data/common';
+import Editor from 'components/WangEditor/Editor.vue';
 export default {
     name: 'AddUser',
+    components: {
+        'wang-editor': Editor
+    },
     data(){
         let checkMobile = (rule , value , callback) => {
             if(!checkRegex(value , 'mobile') && value != ''){
@@ -54,6 +63,9 @@ export default {
             callback();
         };
         return{
+            uploadUrl: '/user/upload-avatar',
+            contentDetail: '',
+            onload: false,
             postData: {
 
             },
@@ -80,10 +92,13 @@ export default {
         }
     },
     created(){
-
+        setTimeout(() => {
+            this.onload = true;
+        }, 300);
     },
     methods: {
         comfirmAdd(){
+            console.log(this.postData);
             let submit = true;
             this.$refs.form.validate(valid => {
                 submit = valid;
@@ -95,6 +110,9 @@ export default {
         },
         resetField(){
             this.$refs.form.resetFields();
+        },
+        changeEdiorContent(val){
+            this.postData.desc = val;
         }
     }
 }
