@@ -41,7 +41,7 @@ export default {
             var editor = new E(this.$refs.editor);
             editor.customConfig.uploadImgServer = this.uploadUrl;  // 上传图片到服务器
             editor.customConfig.uploadImgMaxLength = 5; //限制一次上传图片数量限制,默认10000(即不限制)
-            editor.customConfig.zIndex = 100; //设置z-index
+            editor.customConfig.zIndex = 1; //设置z-index
             editor.customConfig.uploadFileName = 'file';
             editor.customConfig.uploadImgParams = {
                 'X-XSRF-TOKEN': this.csrfToken, //添加csrf-token

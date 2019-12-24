@@ -3,6 +3,7 @@
         <div class="contain">
             <div class="table_container">
                 <el-button type="primary" class="marb10" @click="jumpTo('/user-manage/add-user')">新增用户</el-button>
+                <el-button type="warning" @click="jumpTo('/user-manage/edit-article')">新增文章</el-button>
                 <el-table :data="userList" border style="100%" v-loading="loading">
                     <el-table-column prop="nickname" label="用户名"></el-table-column>
                     <el-table-column prop="name" label="真实姓名"></el-table-column>
@@ -50,7 +51,7 @@ export default {
         getUserList(){
             setTimeout(() => {
                 this.loading = false;
-            }, 2000);
+            }, 200);
             let fakeData = Mock.mock({
                 'array|10': [
                     {

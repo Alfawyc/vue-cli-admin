@@ -39,11 +39,19 @@ export const permission = [
     },
     {
         id : 4,
-        title : '信息管理',
+        title : '商品管理',
         icon : 'iconinfo',
-        path : '/message-list',
+        path : '/product-manage',
         hidden : false,
-        noDropdown : true
+        noDropdown : false,
+        children: [
+            {
+                id: 401,
+                title: '产品列表',
+                path: 'sku-product',
+                routerType: ''
+            }
+        ]
     },
     {
         id : 5,
@@ -81,7 +89,15 @@ export const permission = [
         icon : 'iconpermission',
         path : '/system-list',
         hidden : false,
-        noDropdown : true
+        noDropdown : false,
+        children: [
+            {
+                id: 701,
+                title: '角色权限',
+                path: 'role-auth',
+                routerType: '',
+            }
+        ]
     },
     {
         id : 8,

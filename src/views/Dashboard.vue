@@ -1,8 +1,6 @@
 <template>
     <div class="fillcontain">
-		<el-button type="primary" @click="showToast">toastMsg</el-button>
-		<el-button type="info" @click="showMotice">noticeMsg</el-button>
-		<el-button type="danger" @click="showConfirm">confirmMsg</el-button>
+		
     </div>
 </template>
 

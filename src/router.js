@@ -7,6 +7,8 @@ import error from "./views/Error.vue";
 import { errorRoute } from '@/routes/error.js';
 import { userRoute } from '@/routes/user.js';
 import { financeRoute } from '@/routes/finance.js';
+import { systemRoute } from '@/routes/system.js';
+import { productRoute } from '@/routes/product.js';
 
 Vue.use(Router);
 
@@ -44,12 +46,28 @@ export default new Router({
 			children : userRoute　
 		},
 		{
+			path: '/product-manage',
+			component: Home,
+			meta: {
+				title: '产品管理',
+			},
+			children: productRoute
+		},
+		{
 			path: '/finance-manege',
 			component: Home,
 			meta: {
 				title: '资金管理'
 			},
 			children: financeRoute
+		},
+		{
+			path: '/system-list',
+			component: Home,
+			meta: {
+				title: '系统设置'
+			},
+			children: systemRoute
 		},
 		{
 			path : '/error-page',

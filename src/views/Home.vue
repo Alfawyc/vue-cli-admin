@@ -50,8 +50,10 @@
         <div class="menu_right wflex el-scrollbar" ref="menu_right" :style="{left:sidebar.width+'px'}">
             <header class="head-nav rflex" :style="{'width':headNavWidth+'px'}" id='header_container'>
                 <div class="right-nav" ref="rightNav">
+
                     <!-- top menu -->
 					<div class="menu_top wflex rflex" ref="menuTop">
+                        <el-button>系统管理</el-button>
 					</div>
                     <div class="userinfo-right rflex">
                         <div class="notify-row">

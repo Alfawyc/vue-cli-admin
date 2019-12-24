@@ -119,25 +119,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.mart10{
-    margin-top: 10px;
-}
-.info_container{
+    .mart10{
+        margin-top: 10px;
+    }
+    .info_container{
        padding: 20px;
        background: #fff;
        box-sizing: border-box;
        overflow: auto;
-    }
-     .title{
-        text-align:center;
-        width:100%;
-        height:30px;
-        line-height:30px;
-        cursor: pointer;
-        background-color: #3bc5ff;
-        border:1px solid #3bc5ff;
-        color: white;
-        display: block;
     }
    .info_row{
         .area{
