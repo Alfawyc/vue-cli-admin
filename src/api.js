@@ -1,5 +1,16 @@
 import axios from 'axios';
 
+axios.interceptors.request.use(
+    config => {
+        let accessToken = "access_token"; //localstroage 获取jwt令牌
+        config.headers['access_toekn'] = accessToken
+        return config
+    },
+    error => {
+        return Promise.resolve(error.response);
+    }
+);
+
 axios.interceptors.response.use(
     response => {
         return response;
