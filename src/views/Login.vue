@@ -9,12 +9,20 @@
 		    	<el-form :model="loginForm" :rules="rules" ref="loginForm" class="loginForm">
 					<el-form-item prop="username" class="login-item">
 					    <span class="loginTips"><icon-svg icon-class="iconuser" /></span>
-						<el-input @keyup.enter.native ="submitForm('loginForm')"  class="area" type="text" placeholder="用户名" v-model="loginForm.username" ></el-input>
+						<el-input @keyup.enter.native ="submitForm('loginForm')" type="text" placeholder="用户名" v-model="loginForm.username" ></el-input>
 					</el-form-item>
 					<el-form-item prop="password" class="login-item"> 
 					    <span class="loginTips"><icon-svg icon-class="iconLock" /></span>
-						<el-input @keyup.enter.native ="submitForm('loginForm')" class="area" type="password" placeholder="密码" v-model="loginForm.password"></el-input>
+						<el-input @keyup.enter.native ="submitForm('loginForm')" type="password" placeholder="密码" v-model="loginForm.password"></el-input>
 					</el-form-item>
+					<el-form-item prop="code" class="login-item" style="position:relative">
+						<span class="loginTips"><icon-svg icon-class="iconinfo" /></span>
+						<el-input style="width:60%;" type="text" placeholder="验证码" v-model="loginForm.code"></el-input>
+						<div class="vPic">
+							<img :src="codeImage" alt="请输入验证码" width="100%" height="100%" @click="getCaptcha">
+						</div>
+					</el-form-item>
+					
 					<el-form-item>
 				    	<el-button type="primary"  @click="submitForm('loginForm')" class="submit_btn">登陆</el-button>
 				  	</el-form-item>
@@ -26,7 +34,7 @@
 					<div class="sanFangArea">
 						<p class="title">第三方账号登录</p>
 						<ul class="rflex">
-							<li @click="loginByWechat">
+							<li>
 						       <icon-svg icon-class="iconwechat" />
 							</li>
 							<li>
@@ -45,15 +53,20 @@
 
 <script>
 import logoImg from "@/assets/img/logo.png";
+import IconSvg from '../components/IconSvg/IconSvg.vue';
 export default {
+  components: { IconSvg },
     name : 'Login',
     data(){
         return {
             logo : logoImg,
             loginForm : {
-                username : 'admin',
-                password : ''
-            },
+                username : 'Alfa',
+				password : '',
+				code: "",
+				code_id: ""
+			},
+			codeImage: '',
             rules : {
                 username: [
 			            { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -66,35 +79,40 @@ export default {
         }
     },
     created(){
-
+		this.getCaptcha();
     },
     methods : {
         submitForm(){
-			_api.post('/login' , this.loginForm).then(res => {
+			_api.post('/base/login' , this.loginForm).then((res) => {
 				if(res.code != 0){
 					_g.toastMsg('error' , res.message , 1500);
+					this.getCaptcha();
 					return false;
 				}
 				_g.toastMsg('success' , '登陆成功' , 1500 , () => {
 					//保存用户信息
-					Lockr.set('realname' , res.data.realname);
+					Lockr.set('name' , res.data.user.nick_name);
+					Lockr.set('id' , res.data.user.ID)
+					Lockr.set('x-token' , res.data.token)
 					this.$router.push({ path :  '/'});
 				});
 			});
-			return false;
-            console.log('submit form');
-            //TODO:登陆逻辑
-            this.$router.push({ path :  '/'});
         },
-        loginByWechat(){
-            console.log('wechat');
-        }
+		getCaptcha(){
+			_api.get("/base/captcha").then((res) => {
+				if(res.code != 0){
+					return false
+				}
+				this.loginForm.code_id = res.data.id;
+				this.codeImage = res.data.data;
+			})
+		}
     }
 }
 </script>
 
 <style lang="less" scoped>
-.login_page{
+	.login_page{
 		position: absolute;
 		width: 100%;
 		height: 100%;
@@ -110,7 +128,7 @@ export default {
 		width:370px;
 		border-radius: 5px;
 		padding: 25px;
-		text-align: center;
+		//text-align: center;
 		.titleArea{
 			justify-content: center;
    			align-items: center;
@@ -206,4 +224,14 @@ export default {
 			}
 		}
 	}
+	.vPic {
+		width: 33%;
+		height: 40px;
+		float: right !important;
+		background: #ccc;
+		img {
+			cursor: pointer;
+			vertical-align: middle;
+		}
+  	}
 </style>

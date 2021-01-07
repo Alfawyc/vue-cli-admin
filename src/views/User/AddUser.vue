@@ -29,7 +29,7 @@
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="comfirmAdd">确定</el-button>
-                            <el-button>取消</el-button>
+                            <el-button @click="goBack">取消</el-button>
                             <el-button type="danger" @click="resetField">重置</el-button>  
                         </el-form-item>
                     </el-col>
@@ -67,7 +67,11 @@ export default {
             contentDetail: '',
             onload: false,
             postData: {
-
+                username: '',
+                realname: '',
+                email: '',
+                mobile: '',
+                sex: ''
             },
             rules: {
                 username: [
@@ -113,6 +117,9 @@ export default {
         },
         changeEdiorContent(val){
             this.postData.desc = val;
+        },
+        goBack(){
+            router.go(-1)
         }
     }
 }

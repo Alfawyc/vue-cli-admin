@@ -14,5 +14,10 @@ export const financeRoute = [
         meta: {
             title: '资金统计'
         }
+    },
+    {
+        path: 'finance-list',
+        name: 'FinanceList',
+        component: () => import(/* webpackChunkName: "finance" */ 'views/Finance/FinanceList.vue')
     }
 ];

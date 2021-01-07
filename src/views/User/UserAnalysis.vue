@@ -27,8 +27,8 @@ export default {
             window.onresize = function() {
                 if (resizeTimer) clearTimeout(resizeTimer);
                 resizeTimer = setTimeout(function() {
-                that.$refs.fillcontainer.style.height = (document.body.clientHeight - 160)+'px'
-                that.drawChart('fundPosition');
+                    that.$refs.fillcontainer.style.height = (document.body.clientHeight - 160)+'px'
+                    that.drawChart('fundPosition');
                 }, 100);
             }
         })

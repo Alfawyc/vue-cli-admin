@@ -2,89 +2,189 @@
     <div class="fillcontain">
         <div class="contain">
             <div class="table_container">
-                <el-button type="primary" class="marb10" @click="jumpTo('/user-manage/add-user')">新增用户</el-button>
-                <el-button type="warning" @click="jumpTo('/user-manage/edit-article')">新增文章</el-button>
+                <el-button type="primary" class="marb10" @click="dialogVisible = true">新增用户</el-button>
                 <el-table :data="userList" border style="100%" v-loading="loading">
-                    <el-table-column prop="nickname" label="用户名"></el-table-column>
-                    <el-table-column prop="name" label="真实姓名"></el-table-column>
+                    <el-table-column prop="ID" label="ID"></el-table-column>
+                    <el-table-column prop="nick_name" label="昵称"></el-table-column>
+                    <el-table-column prop="username" label="真实姓名"></el-table-column>
                     <el-table-column prop="email" label="邮箱地址"></el-table-column>
-                    <el-table-column prop="address" label="注册地址"></el-table-column>
-                    <el-table-column prop="ip" label="IP地址"></el-table-column>
-                    <el-table-column prop="create_time" label="注册时间"></el-table-column>
-                    <el-table-column prop="login_time" label="登录时间"></el-table-column>
+                    <el-table-column prop="phone" label="电话"></el-table-column>
+                    <el-table-column prop="sex" label="性别">
+                        <template slot-scope="scope">
+                            <span>{{ scope.row.sex|sexFilter }}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="操作">
+                        <template slot-scope="scope">
+                            <el-button type="danger" icon="el-icon-delete" circle @click="deleteUser(scope.row.ID)"></el-button>
+                        </template>
+                    </el-table-column>
                 </el-table>
-                <paginate :toPage="toPaga" :from-page="fromPage"></paginate>
+                <paginate :toPage="toPaga" @from-page="fromPage"></paginate>
             </div>
         </div>
+        <el-dialog title="添加用户" :visible.sync="dialogVisible" @close="closeDialog">
+            <el-form :model="userForm" :rules="userRules" ref="userForm">
+                <el-form-item label="用户名：" prop="username" label-width="120px" required>
+                    <el-input v-model="userForm.username"></el-input>
+                </el-form-item>
+                <el-form-item label="昵称：" prop="nickname" label-width="120px" required>
+                    <el-input v-model="userForm.nickname"></el-input>
+                </el-form-item>
+                <el-form-item label="密码：" prop="password" label-width="120px" required>
+                    <el-input v-model="userForm.password"></el-input>
+                </el-form-item>
+                <el-form-item label="Email：" prop="email" label-width="120px" required>
+                    <el-input v-model="userForm.email"></el-input>
+                </el-form-item>
+                <el-form-item label="电话：" prop="phone" label-width="120px" required>
+                    <el-input v-model="userForm.phone"></el-input>
+                </el-form-item>
+                <el-form-item label="性别：" prop="sex" label-width="120px" required>
+                    <el-select v-model="userForm.sex">
+                        <el-option label="男" value="M"></el-option>
+                        <el-option label="女" value="F"></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="confirmUser">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
 <script>
 import paginate from 'components/Paginate.vue';
+import {checkRegex} from '@/data/common.js'
 export default {
     name : 'UserList',
     components:{
         paginate: paginate
     },
     data(){
+        let checkMobile = (rule, value , callback) => {
+            if(!checkRegex(value , "mobile")){
+                callback(new Error("手机号格式错误"))
+            } else {
+                callback()
+            }
+        }
+        let checkEmail = (rule , value , callback) => {
+            if(!checkRegex(value , "email")){
+                callback(new Error("email格式错误"))
+            } else {
+                callback()
+            }
+        }
         return {
-            userList: [ ],
+            searchParams: {
+                page: 1,
+            },
+            userList: [],
             toPaga: {
                 currentPage: 1,
                 totalCount: 0,
                 perpage: 1
             },
             loading : true,
+            dialogVisible: false,
+            userForm: {
+                username:"",
+                password:"",
+                nickname:"",
+                phone:"",
+                email:"",
+                sex:""
+            },
+            userRules: {
+                username: [
+                    {required: true , message:"请输入用户名", trigger: "blur" },
+                    { min:3, max: 6 , message: "请输入3到5位用户名" , trigger:"blur" }
+                ],
+                nickname: [
+                    {required: true , message:"请输入昵称", trigger: "blur" },
+                ],
+                password: [
+                    {required: true, message:"请输入密码" , trigger: "blur"}
+                ],
+                phone: [
+                    {required:true , message:"请输入手机号", trigger: "blur"},
+                    {validator: checkMobile , triggger: "blur"}
+                ],
+                email: [
+                    {required: true , message: "请输入邮箱" , trigger: "blur"},
+                    {validator: checkEmail , trigger: "blur"}
+                ],
+                sex: [
+                    {required: true , message: "请选择性别", trigger: "change"}
+                ]
+            }
         }
     },
     created(){
         this.getUserList();
-        this.getLogin();
     },
     methods: {
-        fromPage(){
-            console.log('form-page');
+        fromPage(val){
+            this.searchParams.page = val
+            this.getUserList();
         },
         jumpTo(path , query = {}){
             this.$router.push({ path: path , query: query });
         },
         getUserList(){
-            setTimeout(() => {
+            _api.get('/user/user-list' , this.searchParams).then((res) => {
                 this.loading = false;
-            }, 200);
-            let fakeData = Mock.mock({
-                'array|10': [
-                    {
-                        'nickname' : '@first',
-                        'name' : '@cname',
-                        'email' : '@email',
-                        "age|18-28": 0,
-                        'date' : '@date("yyyy-MM-dd")',
-                        'address' : '@city(true)',
-                        'ip' : '@ip',
-                        'create_time' : '@datetime("yyyy-MM-dd HH:mm:ss")',
-                        'login_time' : '@datetime("yyyy-MM-dd HH:mm:ss")',
-                    }
-                ]
+                if (res.code != 0){
+                    _g.toastMsg("error" , res.msg);
+                    return false;
+                }
+                this.userList = res.data.list;
+                this.toPaga.totalCount = res.data.total;
+                this.toPaga.perpage = res.data.page_size;
+                this.toPaga.currentPage = res.data.page
             });
-            let data = fakeData.array;
-            this.toPaga.totalCount = data.length * 15;
-            this.toPaga.perpage = 10
-            this.userList = fakeData.array;
         },
-        getLogin(){
-            _api.post('/login' , { username: 'admin' , password: 'admin123456' }).then(res => {
-                console.log(res);
-            });
+        confirmUser(){
+            this.$refs['userForm'].validate((valid) => {
+                if(!valid){
+                    return false;
+                }
+                _api.post("/user/register" , this.userForm).then((res) => {
+                    console.log(res)
+                    if(res.code != 0){
+                        _g.toastMsg("error" , res.msg);
+                        return false;
+                    }
+                    _g.toastMsg("success", "操作成功" , 1500 , () => {
+                        this.getUserList();
+                    })
+                });
+            })
+        },
+        closeDialog(){
+            this.$refs['userForm'].resetFields();
+        },
+        deleteUser(userId){
+            _g.confirmMsg("warning" , "提示" , "确定要删除该用户吗？？？" , () => {
+                _api.post("/user/delete-user" , { id: userId }).then((res) => {
+                    if (res.code != 0){
+                        _g.toastMsg("error" , res.msg);
+                        return false;
+                    }
+                    _g.toastMsg("success" , "删除成功" , 1500 , () => {
+                        this.getUserList()
+                    })
+                })
+            })
         }
     }
 }
 </script>
 
 <style lang="less" scoped>
-.fillcontain{
-    padding-bottom: 0;
-}
 .contain{
     background: #fff;
     padding: 10px;

@@ -12,6 +12,12 @@ export function checkRegex(value , type){
                 return false;
             }
             break;
+        case 'number':
+            let number_regex = /^[0-9]*[1-9][0-9]*$/;
+            if(value && !number_regex.test(value)){
+                return false;
+            }
+            break;
         default:
             return true;
     }

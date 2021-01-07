@@ -82,7 +82,24 @@
 .marb10{
     margin-bottom: 10px;
 }
-
 .mart10{
     margin-top: 10px;
+}
+.marb20 {
+    margin-bottom: 20px;
+}
+.mart20 {
+    margin-top: 20px;
+}
+.fs45 {
+    font-size: 45px;
+}
+.fs20 {
+    font-size: 20px;
+}
+.fs18 {
+    font-size: 18px;
+}
+.pointer {
+    cursor: pointer;
 }

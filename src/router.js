@@ -9,6 +9,8 @@ import { userRoute } from '@/routes/user.js';
 import { financeRoute } from '@/routes/finance.js';
 import { systemRoute } from '@/routes/system.js';
 import { productRoute } from '@/routes/product.js';
+import { shareRoute } from '@/routes/share.js';
+import { CateRoute } from '@/routes/cate.js';
 
 Vue.use(Router);
 
@@ -46,6 +48,14 @@ export default new Router({
 			children : userRoute　
 		},
 		{
+			path: '/share-manage',
+			component: Home,
+			meta: {
+				title: 'Element'
+			},
+			children: shareRoute
+		},
+		{
 			path: '/product-manage',
 			component: Home,
 			meta: {
@@ -68,6 +78,14 @@ export default new Router({
 				title: '系统设置'
 			},
 			children: systemRoute
+		},
+		{
+			path: '/cate',
+			component: Home,
+			meta:{
+				title: '博客管理'
+			},
+			children: CateRoute
 		},
 		{
 			path : '/error-page',
