@@ -14,8 +14,10 @@
                             <span>{{ scope.row.sex|sexFilter }}</span>
                         </template>
                     </el-table-column>
+                    <el-table-column prop="authority_id" label="角色id"></el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="scope">
+                            <el-button type="success" icon="el-icon-user-solid" circle @click="setAuth(scope.row)"></el-button>
                             <el-button type="danger" icon="el-icon-delete" circle @click="deleteUser(scope.row.ID)"></el-button>
                         </template>
                     </el-table-column>
@@ -50,6 +52,18 @@
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="confirmUser">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!-- 设置角色 -->
+        <el-dialog :visible.sync="authVisible" title="设置权限" @close="closeAuth">
+            <el-form :model="userAuth">
+                <el-form-item label="角色：" label-width="100px">
+                    <el-cascader :options="authOption" :props="{ checkStrictly: true, label: 'authority_name', value:'authority_id', children: 'Children',emitPath: false }" clearable v-model="userAuth.authority_id" placeholder="请选择角色" :show-all-levels="false" @change="authChange"></el-cascader>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="authVisible = false">取 消</el-button>
+                <el-button type="primary" @click="setUserAuth">确 定</el-button>
             </div>
         </el-dialog>
     </div>
@@ -90,6 +104,7 @@ export default {
             },
             loading : true,
             dialogVisible: false,
+            authVisible: false,
             userForm: {
                 username:"",
                 password:"",
@@ -97,6 +112,11 @@ export default {
                 phone:"",
                 email:"",
                 sex:""
+            },
+            authOption: [],
+            userAuth: {
+                user_id: '',
+                authority_id: ''
             },
             userRules: {
                 username: [
@@ -179,6 +199,42 @@ export default {
                     })
                 })
             })
+        },
+        setAuth(row){
+            this.authVisible = true;
+            this.userAuth.user_id = row.ID;
+            this.userAuth.authority_id = row.authority_id;
+            this.getAllAuth()
+            
+        },
+        getAllAuth(){
+            _api.get("/auth/all-auth").then((res) => {
+                if (res.code != 0){
+                    _g.toastMsg("error" , res.msg);
+                    return;
+                }
+                this.authOption = res.data.list;
+            })
+        },
+        closeAuth(){
+            this.userAuth = { user_id: '', authority_id: '' }
+        },
+        setUserAuth(){
+            if(!this.userAuth.authority_id || !this.userAuth.user_id){
+                _g.toastMsg("error" , "用户和角色不能为空");
+                return false;
+            }
+            _api.post("/user/user-auth" , this.userAuth).then((res) => {
+                if(res.code != 0){
+                    _g.toastMsg("error" , res.msg);
+                    return false;
+                }
+                _g.toastMsg("success" , "设置成功");
+                this.authVisible = false;
+            })
+        },
+        authChange(){
+            console.log(this.userAuth);
         }
     }
 }

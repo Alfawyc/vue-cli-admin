@@ -11,7 +11,7 @@
                 <el-table-column prop="description" label="简介" show-overflow-tooltip></el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <el-button type="primary" icon="el-icon-edit" circle></el-button>
+                        <el-button type="primary" icon="el-icon-edit" circle @click="editApi(scope.row)"></el-button>
                         <el-button type="danger" icon="el-icon-delete" circle @click="deleteApi(scope.row.ID)"></el-button>
                     </template>
                 </el-table-column>
@@ -109,14 +109,22 @@ export default {
         },
         closeDialog(){
             console.log("close dailog init");
-            this.$refs['apiForm'].resetFields()
+            this.$refs['apiForm'].resetFields();
+            this.formData = {
+                path: '',
+                method: '',
+                group: '',
+                description: '',
+            },
+            console.log(this.formData);
         },
         confirmEdit(){
             this.$refs.apiForm.validate((valid) => {
                 if(!valid){
                     return false;
                 }
-                _api.post('/api/create-api' , this.formData).then((res) => {
+                let url = this.isAdd ? '/api/create-api' : '/api/update-api';
+                _api.post(url , this.formData).then((res) => {
                     if(res.code != 0){
                         _g.toastMsg("error" , res.msg);
                         return false;
@@ -140,6 +148,19 @@ export default {
                     })
                 })
             })
+        },
+        editApi(row){
+            let tmp = row
+            this.editDialog = true;
+            this.formData = {
+                id: row.ID,
+                path: row.path,
+                method: row.method,
+                group: row.group,
+                description: row.description,
+            }
+            //this.formData.ID = row.ID;
+            this.isAdd = false;
         }
     }
 }

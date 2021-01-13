@@ -11,7 +11,7 @@
                     <el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
                     <el-table-column label="操作">
                         <span slot-scope="scope">
-                            <el-button type="warning" @click="drawer = true">设置权限</el-button>
+                            <el-button type="warning" @click="showAuthDraw(scope.row)">设置权限</el-button>
                             <el-button type="success" @click="addChildAuht(scope.row)">添加子角色</el-button>
                             <el-button type="primary" icon="el-icon-edit" circle @click="EditAuth(scope.row)"></el-button>
                             <el-button type="danger" icon="el-icon-delete" circle @click="DeleteAuth(scope.row)"></el-button>
@@ -20,10 +20,16 @@
                 </el-table>
             </div>
         </div>
-        <el-drawer title="权限配置" :visible.sync="drawer" direction="rtl" size="40%">
+        <el-drawer title="权限配置" :visible.sync="drawer" direction="rtl" size="40%" @close="closeDraw">
             <el-tabs v-model="activeName" type="border-card">
                 <el-tab-pane label="角色菜单" name="menu">角色菜单</el-tab-pane>
-                <el-tab-pane label="api权限" name="api">api权限</el-tab-pane>
+                <el-tab-pane label="api权限" name="api">
+                    <div class="marb10">
+                        <el-button type="primary" @click="authApiConfirm">确定</el-button>
+                    </div>
+                    <el-tree :data="apiList" show-checkbox node-key="uniqueKey" :default-checked-keys="authorityPolicy" :props='{label: "description" , children: "children"}' default-expand-all ref="apiTree">
+                    </el-tree>
+                </el-tab-pane>
             </el-tabs>
         </el-drawer>
         <el-dialog :title="isAdd ? '添加角色': '编辑角色'" :visible.sync="dialogVisible" @close="closeDialog">
@@ -82,6 +88,9 @@ export default {
                     name: "根角色"
                 }
             ],
+            apiList: [],
+            activeAuthorityId: '',
+            authorityPolicy: [],
             rules: {
                 parent_id: [
                     { required: true , message: "父级权限不能为空" , trigger:"change" }
@@ -110,7 +119,6 @@ export default {
                 if(res.code != 0){
                     return false;
                 }
-                console.log(res);
                 this.authList = res.data.list
             })
         },
@@ -153,7 +161,6 @@ export default {
         },
         EditAuth(row){
             this.isAdd = false;
-            console.log(row)
             this.authForm.parent_id = row.parent_id;
             this.authForm.authority_id = row.authority_id;
             this.authForm.authority_name = row.authority_name;
@@ -175,6 +182,78 @@ export default {
                     })
                 });
             })
+        },
+        showAuthDraw(row){
+            this.activeAuthorityId = row.authority_id;
+            this.getAuthorityPolicy(row.authority_id);
+            this.drawer = true;
+            //获取所有api列表
+            this.getAllApi();
+        },
+        //获取所有api
+        getAllApi(){
+            _api.get('/api/all-api').then((res) => {
+                if(res.code != 0){
+                    _g.toastMsg("error" , res.msg);
+                    return false;
+                }
+                //this.apiList = res.data.list;
+                this.apiList = [];
+                //构建apiTree
+                //let apiTree = []
+                res.data.group.forEach((val) => {
+                    let children = [];
+                    res.data.list.forEach((v) => {
+                        if(val == v.group){
+                            v.uniqueKey = v.path + '_' + v.method;
+                            children.push(v)
+                        }
+                    });
+                
+                    let temp = { uniqueKey: val , description: val , children: children};
+                    this.apiList.push(temp);
+                });
+                console.log(this.apiList);
+            })
+        },
+        //修改角色casbin权限
+        authApiConfirm(){
+            let chekcNode = this.$refs.apiTree.getCheckedNodes(true);
+            if(chekcNode.length < 1){
+                _g.toastMsg("error" , "请先选择权限");
+                return false;
+            }
+            //请求权限设置接口
+            let postData = { authority_id: this.activeAuthorityId.toString() , casbin_infos: chekcNode };
+            console.log(postData);
+            _api.post("/casbin/update-casbin" , postData).then((res) => {
+                if(res.code != 0){
+                    _g.toastMsg("error" , res.msg);
+                    return false;
+                }
+                _g.toastMsg("success" , "修改权限成功" , 1500 , () => {
+                    this.drawer = false;
+                })
+            });
+        },
+        getAuthorityPolicy(authorityId){
+            _api.post("/casbin/authority-policy" , { authority_id: authorityId.toString(), casbin_infos: [] }).then((res) => {
+                if(res.code != 0){
+                    _g.toastMsg("error" , res.msg);
+                    return false;
+                }
+                if(!res.data){
+                    return false;
+                }
+                this.authorityPolicy = [];
+                res.data.forEach((val) => {
+                    this.authorityPolicy.push(val.path + '_' + val.method);
+                });
+            })  
+        },
+        closeDraw(){
+            this.drawer = false;
+            this.activeAuthorityId = '';
         }
     }
 }
