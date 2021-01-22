@@ -14,5 +14,21 @@ export const userRoute = [
         meta: {
             title: '用户分析'
         }
+    },
+    {
+        path: 'add-user',
+        name: 'AddUser',
+        component: () => import(/* webpackChunkName: "user" */ 'views/User/AddUser.vue'),
+        meta: {
+            title: '新增用户'
+        }
+    },
+    {
+        path: 'edit-article',
+        name: 'EditArticle',
+        component: () => import(/* webpackChunkName: "user" */ 'views/User/EditArticle.vue'),
+        meta: {
+            title: '添加文章'
+        }
     }
 ]

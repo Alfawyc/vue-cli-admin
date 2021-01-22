@@ -1,4 +1,18 @@
 import axios from 'axios';
+import router from './router';
+
+axios.interceptors.request.use(
+    config => {
+        let AuthToken = Lockr.get("x-token"); //localstroage 获取jwt令牌
+        if(AuthToken){
+            config.headers['x-token'] = AuthToken
+        }
+        return config
+    },
+    error => {
+        return Promise.resolve(error.response);
+    }
+);
 
 axios.interceptors.response.use(
     response => {
@@ -58,7 +72,7 @@ function checkStatus(response) {
 function checkCode(res) {
     // 校验登陆状态
     if (res.data.code === 999) {
-        _g.toastMsg('warning', '尚未登录', 1500, function() {
+        _g.toastMsg('warning', '尚未登录', 1500, () => {
             router.replace('/login');
         });
     }

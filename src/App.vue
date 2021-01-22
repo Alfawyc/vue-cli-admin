@@ -17,4 +17,5 @@ export default {
 @import "./style/element-ui";
 @import "./style/common";
 @import "./style/scrollBar";
+@import "./style/own.css";
 </style>

@@ -38,6 +38,11 @@ const mutations = {
 	},
 	setLeftCollapse(state){
 		state.isCollapse = !state.isCollapse
+	},
+	setLocalUser(state , userDate){
+		console.log("store set userinfo")
+		state.name = userDate.nickname;
+		state.avatar = userDate.avatar;
 	}
 }
 export default new Vuex.Store({

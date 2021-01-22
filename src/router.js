@@ -1,11 +1,16 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import error from "./views/Error.vue";
 
 //引入二级路由
 import { errorRoute } from '@/routes/error.js';
 import { userRoute } from '@/routes/user.js';
 import { financeRoute } from '@/routes/finance.js';
+import { systemRoute } from '@/routes/system.js';
+import { productRoute } from '@/routes/product.js';
+import { shareRoute } from '@/routes/share.js';
+import { CateRoute } from '@/routes/cate.js';
 
 Vue.use(Router);
 
@@ -20,26 +25,11 @@ export default new Router({
 			children: [{
 				path : '/',
 				name : 'Dashboard',
-				component: () => import(/*webpackChunkName: "base" */ "views/Dashboard")
+				component: () => import(/*webpackChunkName: "base" */ "views/Dashboard"),
+				meta : {
+					title : 'Dashboard'
+				}
 			}]
-		},
-		{
-			path: "/about",
-			name: "about",
-			// route level code-splitting
-			// this generates a separate chunk (about.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
-			component: () =>
-				import(/* webpackChunkName: "about" */ "./views/About.vue")
-		},
-		{
-			path: "/hello",
-			name: "HelloWorld",
-			meta : {
-				title : 'hello'
-			},
-			component: () =>
-				import(/* webpackChunkName: "about" */ "./components/HelloWorld.vue")
 		},
 		{
 			path: "/login",
@@ -58,6 +48,22 @@ export default new Router({
 			children : userRoute　
 		},
 		{
+			path: '/share-manage',
+			component: Home,
+			meta: {
+				title: 'Element'
+			},
+			children: shareRoute
+		},
+		{
+			path: '/product-manage',
+			component: Home,
+			meta: {
+				title: '产品管理',
+			},
+			children: productRoute
+		},
+		{
 			path: '/finance-manege',
 			component: Home,
 			meta: {
@@ -66,12 +72,33 @@ export default new Router({
 			children: financeRoute
 		},
 		{
+			path: '/system-list',
+			component: Home,
+			meta: {
+				title: '系统设置'
+			},
+			children: systemRoute
+		},
+		{
+			path: '/cate',
+			component: Home,
+			meta:{
+				title: '博客管理'
+			},
+			children: CateRoute
+		},
+		{
 			path : '/error-page',
 			component: Home,
 			meta : {
 				title : '错误页面'
 			},
 			children: errorRoute 
+		},
+		{
+			path: '*',
+			component: error,
+			name: 'error'
 		}
 	]
 });
