@@ -4,8 +4,13 @@
             <div class="table_container">
                 <el-button type="primary" class="marb10" @click="dialogVisible = true">新增用户</el-button>
                 <el-table :data="userList" border style="100%" v-loading="loading">
-                    <el-table-column prop="ID" label="ID"></el-table-column>
-                    <el-table-column prop="nick_name" label="昵称"></el-table-column>
+                    <!-- <el-table-column prop="ID" label="ID"></el-table-column> -->
+                    <el-table-column prop="nickname" label="昵称"></el-table-column>
+                    <el-table-column prop="avatar" label="头像">
+                        <template slot-scope="scope">
+                            <el-avatar shape="square" size="large" :src="scope.row.avatar" v-if="scope.row.avatar"></el-avatar>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="username" label="真实姓名"></el-table-column>
                     <el-table-column prop="email" label="邮箱地址"></el-table-column>
                     <el-table-column prop="phone" label="电话"></el-table-column>
@@ -18,6 +23,7 @@
                     <el-table-column label="操作">
                         <template slot-scope="scope">
                             <el-button type="success" icon="el-icon-user-solid" circle @click="setAuth(scope.row)"></el-button>
+                            <el-button type="primary" icon="el-icon-edit" circle @click="editUser(scope.row)"></el-button>
                             <el-button type="danger" icon="el-icon-delete" circle @click="deleteUser(scope.row.ID)"></el-button>
                         </template>
                     </el-table-column>
@@ -30,10 +36,16 @@
                 <el-form-item label="用户名：" prop="username" label-width="120px" required>
                     <el-input v-model="userForm.username"></el-input>
                 </el-form-item>
+                <el-form-item label="头像：" prop="avatar" label-width="120px" required>
+                    <el-upload class="avatar-uploader" action="/file/upload" :show-file-list="false" :on-success="handleAvatarSuccess">
+                        <img v-if="userForm.imageUrl" :src="userForm.imageUrl" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </el-form-item>
                 <el-form-item label="昵称：" prop="nickname" label-width="120px" required>
                     <el-input v-model="userForm.nickname"></el-input>
                 </el-form-item>
-                <el-form-item label="密码：" prop="password" label-width="120px" required>
+                <el-form-item label="密码：" prop="password" label-width="120px" required v-if="isAddUser">
                     <el-input v-model="userForm.password"></el-input>
                 </el-form-item>
                 <el-form-item label="Email：" prop="email" label-width="120px" required>
@@ -111,13 +123,16 @@ export default {
                 nickname:"",
                 phone:"",
                 email:"",
-                sex:""
+                sex:"",
+                avatar: "",
+                imageUrl: ""
             },
             authOption: [],
             userAuth: {
                 user_id: '',
                 authority_id: ''
             },
+            isAddUser: true,
             userRules: {
                 username: [
                     {required: true , message:"请输入用户名", trigger: "blur" },
@@ -172,13 +187,15 @@ export default {
                 if(!valid){
                     return false;
                 }
-                _api.post("/user/register" , this.userForm).then((res) => {
+                let url = this.isAddUser ? '/user/register' : '/user/set-info';
+                _api.post(url , this.userForm).then((res) => {
                     console.log(res)
                     if(res.code != 0){
                         _g.toastMsg("error" , res.msg);
                         return false;
                     }
                     _g.toastMsg("success", "操作成功" , 1500 , () => {
+                        this.dialogVisible = false;
                         this.getUserList();
                     })
                 });
@@ -229,12 +246,37 @@ export default {
                     _g.toastMsg("error" , res.msg);
                     return false;
                 }
-                _g.toastMsg("success" , "设置成功");
+                _g.toastMsg("success" , "设置成功" , 1500 , () => {
+                    this.getUserList();
+                });
                 this.authVisible = false;
             })
         },
         authChange(){
             console.log(this.userAuth);
+        },
+        handleAvatarSuccess(res, file) {
+            let val = URL.createObjectURL(file.raw);
+            if(res.code != 0){
+                _g.toastMsg("error" , res.msg);
+                return false;
+            }
+            this.userForm.avatar = res.data.path;
+            this.userForm.imageUrl = val;
+            console.log(res);
+            console.log(val)
+        },
+        editUser(row){
+            this.userForm.ID = row.ID;
+            this.userForm.username = row.username;
+            this.userForm.nickname = row.nickname;
+            this.userForm.email = row.email;
+            this.userForm.phone = row.phone;
+            this.userForm.sex = row.sex;
+            this.userForm.avatar = row.avatar;
+            this.userForm.imageUrl = row.avatar;
+            this.isAddUser = false;
+            this.dialogVisible = true;
         }
     }
 }
@@ -252,5 +294,13 @@ export default {
 }
 .marb10{
     margin-bottom: 10px;
+}
+.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
 }
 </style>

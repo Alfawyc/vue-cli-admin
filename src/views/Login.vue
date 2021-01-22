@@ -54,6 +54,7 @@
 <script>
 import logoImg from "@/assets/img/logo.png";
 import IconSvg from '../components/IconSvg/IconSvg.vue';
+import store from '@/store.js';
 export default {
   components: { IconSvg },
     name : 'Login',
@@ -93,6 +94,7 @@ export default {
 					//保存用户信息
 					Lockr.set('name' , res.data.user.nick_name);
 					Lockr.set('id' , res.data.user.ID)
+					store.commit('setLocalUser' , res.data.user);
 					Lockr.set('x-token' , res.data.token)
 					this.$router.push({ path :  '/'});
 				});

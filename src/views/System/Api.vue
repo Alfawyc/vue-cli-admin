@@ -7,7 +7,11 @@
             <el-table :data="apiList" border style="100%" v-loading="loading">
                 <el-table-column prop="path" label="路径"></el-table-column>
                 <el-table-column prop="group" label="分组"></el-table-column>
-                <el-table-column prop="method" label="请求方式"></el-table-column>
+                <el-table-column prop="method" label="请求方式">
+                    <template slot-scope="scope">
+                        <el-tag :type="scope.row.method == 'GET' ? 'success' : 'warning'" effect="dark" size="mini">{{ scope.row.method }}</el-tag>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="description" label="简介" show-overflow-tooltip></el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
