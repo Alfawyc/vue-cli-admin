@@ -11,6 +11,7 @@ import { systemRoute } from '@/routes/system.js';
 import { productRoute } from '@/routes/product.js';
 import { shareRoute } from '@/routes/share.js';
 import { CateRoute } from '@/routes/cate.js';
+import { TaskRouter } from '@/routes/task.js'
 
 Vue.use(Router);
 
@@ -94,6 +95,14 @@ export default new Router({
 				title : '错误页面'
 			},
 			children: errorRoute 
+		},
+		{
+			path:"/task",
+			component: Home,
+			meta: {
+				title: '任务管理'
+			},
+			children: TaskRouter
 		},
 		{
 			path: '*',

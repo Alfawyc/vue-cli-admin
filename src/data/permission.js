@@ -62,7 +62,7 @@ export const permission = [
         title : '商品管理',
         icon : 'iconinfo',
         path : '/product-manage',
-        hidden : false,
+        hidden : true,
         noDropdown : false,
         children: [
             {
@@ -158,7 +158,7 @@ export const permission = [
         title: 'Go Blog',
         icon : 'iconecharts',
         path : '/cate',
-        hidden : false,
+        hidden : true,
         noDropdown : false,
         children : [
             {
@@ -177,6 +177,22 @@ export const permission = [
                 id: '903',
                 title: '文章列表',
                 path: 'post-list',
+                routerType: ''
+            }
+        ]
+    },
+    {
+        id: 10,
+        title: '任务管理',
+        icon:'iconfufei0',
+        path:'/task',
+        hidden: false,
+        noDropdown: false,
+        children: [
+            {
+                id: '1001',
+                title: '任务列表',
+                path: 'task-list',
                 routerType: ''
             }
         ]

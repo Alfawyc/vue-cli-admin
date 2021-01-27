@@ -10,15 +10,13 @@
                         <template v-for="(item,index) in permission_routers">
                             <!--表示 有一级菜单-->
                             <router-link v-if="!item.hidden && item.noDropdown" :to="item.path" :key="index">
-                                <el-menu-item class="dropItem" 
-                                    :index="item.path"
-                                    >
+                                <el-menu-item class="dropItem" :index="item.path">
                                     <icon-svg v-if="item.icon" :icon-class="item.icon" />
                                     <span v-if="item.title" slot="title">{{ item.title }}</span> 
                                 </el-menu-item>
                             </router-link>
                             <!--表示 有二级或者多级菜单 -->
-                            <el-submenu v-if="item.children  && item.children.length >= 1"  :index="item.path" :key="index">
+                            <el-submenu v-if="item.children  && item.children.length >= 1 && !item.hidden"  :index="item.path" :key="index">
                                 <template slot="title">
                                     <icon-svg v-if="item.icon" :icon-class="item.icon" />
                                     <span v-if="item.title" slot="title">{{ item.title }}</span>
