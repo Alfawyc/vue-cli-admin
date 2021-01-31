@@ -19,7 +19,7 @@
                 </el-table-column>
                 <el-table-column prop="running_state" label="运行状态">
                     <template slot-scope="scope">
-                        <span v-if="scope.row.running_state == 1">
+                        <span v-if="scope.row.running_state == 2">
                             <el-tag effect="dark" type="success">running</el-tag>
                         </span>
                         <span v-else><el-tag effect="dark" type="warning">stop</el-tag></span>
@@ -28,7 +28,7 @@
                 <el-table-column prop="operate" label="操作">
                     <template slot-scope="scope">
                         <span>
-                            <el-button icon="el-icon-close" type="danger" circle @click="stop(scope.row)" v-if="scope.row.running_state == 1"></el-button>
+                            <el-button icon="el-icon-close" type="danger" circle @click="stop(scope.row)" v-if="scope.row.running_state == 2"></el-button>
                             <el-button type="success" icon="el-icon-check" circle @click="recover(scope.row)" v-else></el-button>
                             
                         </span>

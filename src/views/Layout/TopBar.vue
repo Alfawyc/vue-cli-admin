@@ -106,10 +106,12 @@ export default {
             americaImg:americaImg,
             langLogo:chinaImg,
             changeBarDirection : false,
+            name: '',
+            avatar:''
         }
     },
     created(){
-
+        this.initUserinfo();
     },
     computed: {
         matchedArr(){
@@ -127,8 +129,8 @@ export default {
 			'isCollapse',
 			'sidebar',
             'menuIndex',
-            'name',
-            'avatar'
+            //'name',
+            //'avatar'
         ]),headNavWidth(){
                 return document.body.clientWidth - this.sidebar.width
             }
@@ -147,6 +149,11 @@ export default {
                     this.$router.push("/login")
                 });
             }
+        },
+        initUserinfo(){
+            this.name = Lockr.get('name');
+            this.avatar = Lockr.get('avatar');
+            console.log(this.name)
         }
     }
 }

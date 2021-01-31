@@ -53,14 +53,13 @@ export default {
 			'isCollapse',
 			'sidebar',
             'menuIndex',
-            'name',
-            'avatar'
+            //'avatar'
         ]),headNavWidth(){
                 return document.body.clientWidth - this.sidebar.width
             }
 	},
     created(){
-        
+        this.checkLogin();
     },
     methods :{
 		setDialogInfo(type){
@@ -71,7 +70,16 @@ export default {
                 })
                 
             }
-		},
+        },
+        checkLogin(){
+			_api.get('/base/check').then((res) => {
+                console.log(res)
+				if (res.code == 0){
+					return false;
+                }
+				this.$router.push({ path :  '/login'});
+			})
+        }
     }
 };
 </script>
