@@ -129,7 +129,7 @@ export default {
             _g.confirmMsg("warning" , "提示" , "确定要停止该任务吗？？？" , () => {
                 _api.post("/task/remove-task" , { id: row.ID}).then((res) => {
                     if(res.code != 0){
-                        _g.toastMsg("error" , res.message);
+                        _g.toastMsg("error" , res.msg);
                         return false;
                     }
                     _g.toastMsg("success" , "操作成功" , 1500 , () => {
@@ -142,7 +142,7 @@ export default {
             _g.confirmMsg("warning" , "提示" , "确定要重置该任务吗？？？" , () => {
                 _api.post("/task/recover-task" , { id: row.ID}).then((res) => {
                     if(res.code != 0){
-                        _g.toastMsg("error" , res.message);
+                        _g.toastMsg("error" , res.msg);
                         return false;
                     }
                     _g.toastMsg("success" , "操作成功" , 1500 , () => {

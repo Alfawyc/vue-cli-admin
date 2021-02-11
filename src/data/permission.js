@@ -194,6 +194,12 @@ export const permission = [
                 title: '任务列表',
                 path: 'task-list',
                 routerType: ''
+            },
+            {
+                id:'1002',
+                title: '任务日志',
+                path: 'task-log',
+                routerType: ''
             }
         ]
     }
