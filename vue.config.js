@@ -9,7 +9,8 @@ function resolve(dir) {
 module.exports = {
 	lintOnSave: false, // 关闭eslint
 	// 基本路径
-	baseUrl: '/',
+	//baseUrl: '/',
+	publicPath: '/',
 	// 输出文件目录
 	outputDir: 'dist',
 
@@ -19,8 +20,8 @@ module.exports = {
 
 	devServer: {
 		open: true,
-		host: '0.0.0.0',
-		proxy: 'http://hrms.com', //允许跨域的域名
+		//host: '0.0.0.0',
+		proxy: 'http://127.0.0.1:9191/', //允许跨域的域名
 	},
 	chainWebpack: config => {
 		config.resolve.alias

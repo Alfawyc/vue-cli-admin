@@ -13,7 +13,7 @@
 					</el-form-item>
 					<el-form-item prop="password" class="login-item"> 
 					    <span class="loginTips"><icon-svg icon-class="iconLock" /></span>
-						<el-input @keyup.enter.native ="submitForm('loginForm')" type="password" placeholder="密码" v-model="loginForm.password"></el-input>
+						<el-input @keyup.enter.native ="submitForm('loginForm')" type="password" placeholder="密码123456" v-model="loginForm.password"></el-input>
 					</el-form-item>
 					<el-form-item prop="code" class="login-item" style="position:relative">
 						<span class="loginTips"><icon-svg icon-class="iconinfo" /></span>
@@ -26,11 +26,11 @@
 					<el-form-item>
 				    	<el-button type="primary"  @click="submitForm('loginForm')" class="submit_btn">登陆</el-button>
 				  	</el-form-item>
-					<div class="tiparea">
+					<!-- <div class="tiparea">
 						<p class="wxtip">温馨提示：</p>
 						<p class="tip">用户名为：admin/editor<span>(可用于切换权限)</span></p>
 						<p class="tip">密码为：123456</p>
-					</div>
+					</div> -->
 					<div class="sanFangArea">
 						<p class="title">第三方账号登录</p>
 						<ul class="rflex">
@@ -63,7 +63,7 @@ export default {
             logo : logoImg,
             loginForm : {
                 username : 'Alfa',
-				password : '',
+				password : '123456',
 				code: "",
 				code_id: ""
 			},
@@ -92,7 +92,8 @@ export default {
 				}
 				_g.toastMsg('success' , '登陆成功' , 1500 , () => {
 					//保存用户信息
-					Lockr.set('name' , res.data.user.nick_name);
+					Lockr.set('name' , res.data.user.nickname);
+					Lockr.set('avatar' , res.data.user.avatar);
 					Lockr.set('id' , res.data.user.ID)
 					store.commit('setLocalUser' , res.data.user);
 					Lockr.set('x-token' , res.data.token)

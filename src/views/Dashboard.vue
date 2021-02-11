@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import _default from 'vuex'
 export default {
     name : 'Dashboard',
     data(){
@@ -76,20 +77,8 @@ export default {
         
     },
     methods :{
-		showToast(){
-			_g.toastMsg('success' , 'toast弹窗' , 1500);
-		},
-		showMotice(){
-			_g.noticeMsg('warning' , '提示' , 'nitoce-msg' , 1500);
-		},
-		showConfirm(){
-			_g.confirmMsg('danger' , '提示' , '确定吗？' , () => {
-				_g.toastMsg('success' , '确定' , 1500);
-			}, () => {
-				_g.toastMsg('error' , '取消' , 1500);
-			});
-		}
-    }
+	
+	}
 }
 </script>
 

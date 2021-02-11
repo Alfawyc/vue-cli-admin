@@ -126,3 +126,8 @@
     height: 178px;
     display: block;
 }
+.table_container{
+    padding: 10px;
+    background: #fff;
+    border-radius: 2px;
+}

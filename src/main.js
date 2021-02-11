@@ -36,7 +36,7 @@ window.Lockr = Lockr;
 const bus = new Vue();
 window.bus = bus;
 
-window.HOST = window.location.protocol + '//' + window.location.hostname + ':9191';
+//window.HOST = window.location.protocol + '//' + window.location.hostname + ':9191';
 
 //axios全局配置
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
